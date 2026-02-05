@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ebook Jurnaling Cinta</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: #d63384;
+            text-align: center;
+            padding: 20px;
+        }
+        .upload {
+            margin: 20px 0;
+        }
+        textarea {
+            width: 80%;
+            height: 300px;
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .book {
+            display: none;
+            margin-top: 20px;
+        }
+        .cover {
+            width: 200px;
+            height: auto;
+            border-radius: 10px;
+        }
+        button {
+            background: #ff6b9d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Journal</h1>
+    <p>Upload cover dan tulis isi jurnal</p>
+    <div class="upload">
+        <input type="file" id="coverInput" accept="image/*">
+        <button onclick="setCover()">Set Cover</button>
+    </div>
+    <textarea id="content" placeholder="Tulis jurnaling cinta Anda di sini..."></textarea>
+    <button onclick="saveBook()">Simpan dan Lihat Buku</button>
+
+    <div class="book" id="book">
+        <h2>Buku Cinta Anda</h2>
+        <img id="coverImg" class="cover" src="" alt="Cover Buku">
+        <p id="bookContent"></p>
+    </div>
+
+    <script>
+        function setCover() {
+            const file = document.getElementById('coverInput').files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('coverImg').src = e.target.result;
+                    localStorage.setItem('bookCover', e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveBook() {
+            const content = document.getElementById('content').value;
+            document.getElementById('bookContent').innerText = content;
+            document.getElementById('book').style.display = 'block';
+            localStorage.setItem('bookContent', content);
+        }
+
+        // Load dari localStorage
+        window.onload = function() {
+            const cover = localStorage.getItem('bookCover');
+            const content = localStorage.getItem('bookContent');
+            if (cover) document.getElementById('coverImg').src = cover;
+            if (content) {
+                document.getElementById('bookContent').innerText = content;
+                document.getElementById('book').style.display = 'block';
+            }
+        };
+    </script>
+</body>
+</html>
