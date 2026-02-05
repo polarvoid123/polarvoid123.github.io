@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Cinta</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: #d63384;
+            text-align: center;
+            padding: 20px;
+        }
+        .upload {
+            margin: 20px 0;
+        }
+        input[type="file"] {
+            margin: 10px;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        button {
+            background: #ff6b9d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Galeri 📷</h1>
+    <p>Upload foto</p>
+    <div class="upload">
+        <input type="file" id="fileInput" accept="image/*" multiple>
+        <button onclick="uploadImages()">Upload</button>
+    </div>
+    <div class="gallery" id="gallery"></div>
+
+    <script>
+        function uploadImages() {
+            const files = document.getElementById('fileInput').files;
+            const gallery = document.getElementById('gallery');
+            for (let file of files) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    gallery.appendChild(img);
+                    // Simpan ke localStorage
+                    let images = JSON.parse(localStorage.getItem('galleryImages')) || [];
+                    images.push(e.target.result);
+                    localStorage.setItem('galleryImages', JSON.stringify(images));
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Load gambar dari localStorage saat halaman load
+        window.onload = function() {
+            const images = JSON.parse(localStorage.getItem('galleryImages')) || [];
+            const gallery = document.getElementById('gallery');
+            images.forEach(src => {
+                const img = document.createElement('img');
+                img.src = src;
+                gallery.appendChild(img);
+            });
+        };
+    </script>
+</body>
+</html>
