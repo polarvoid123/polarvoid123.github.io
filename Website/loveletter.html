@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Letter</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: #d63384;
+            text-align: center;
+            padding: 20px;
+        }
+        textarea {
+            width: 80%;
+            height: 200px;
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .options {
+            margin: 20px 0;
+        }
+        .reply {
+            display: none;
+        }
+        button {
+            background: #ff6b9d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Love Letter</h1>
+    <p>Tulis pesan cinta Anda di sini!</p>
+    <textarea id="letter" placeholder="Tulis love letter Anda..."></textarea>
+    <button onclick="saveLetter()">Kirim Love Letter</button>
+
+    <div class="options">
+        <p>Apakah Anda mau memberikan love letter balik untuk saya?</p>
+        <input type="radio" name="reply" value="yes" onclick="showReply(true)"> Ya
+        <input type="radio" name="reply" value="no" onclick="showReply(false)"> Tidak
+    </div>
+
+    <div class="reply" id="replySection">
+        <textarea id="replyLetter" placeholder="Tulis love letter balik Anda..."></textarea>
+        <button onclick="saveReply()">Kirim Balasan</button>
+    </div>
+
+    <script>
+        function saveLetter() {
+            const letter = document.getElementById('letter').value;
+            alert('Love letter Anda: ' + letter);
+            localStorage.setItem('loveLetter', letter);
+        }
+
+        function showReply(yes) {
+            document.getElementById('replySection').style.display = yes ? 'block' : 'none';
+        }
+
+        function saveReply() {
+            const reply = document.getElementById('replyLetter').value;
+            alert('Balasan Anda: ' + reply);
+            localStorage.setItem('replyLetter', reply);
+        }
+
+        // Load jika ada
+        window.onload = function() {
+            const letter = localStorage.getItem('loveLetter');
+            if (letter) document.getElementById('letter').value = letter;
+            const reply = localStorage.getItem('replyLetter');
+            if (reply) document.getElementById('replyLetter').value = reply;
+        };
+    </script>
+</body>
+</html>
